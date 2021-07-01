@@ -40,3 +40,5 @@ sysinfo.txt
 *.log
 *.log
 *.log
+*.log
+UserSettings/EditorUserSettings.asset

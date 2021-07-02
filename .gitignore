@@ -36,6 +36,7 @@ sysinfo.txt
 *.apk
 *.unitypackage
 *.log
+<<<<<<< Updated upstream
 *.log
 *.log
 *.log
@@ -44,3 +45,5 @@ sysinfo.txt
 UserSettings/EditorUserSettings.asset
 *.log
 Logs/shadercompiler-UnityShaderCompiler.exe0.log
+=======
+>>>>>>> Stashed changes

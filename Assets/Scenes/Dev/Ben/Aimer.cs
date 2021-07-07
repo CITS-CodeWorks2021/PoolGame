@@ -9,8 +9,9 @@ public class Aimer : MonoBehaviour
     //Ask where playerCam comes into play
     public Camera playerCam;
     public float pushMulti;
-    bool isPlaying = false, isTracking = false, isShooting = false;
+    bool isPlaying = false, isTracking = false, isShooting = false, isFirstShot = true;
     public Transform CueBall;
+    public LayerMask controlLayer;
 
     // Start is called before the first frame update
     void Start()
@@ -29,9 +30,10 @@ public class Aimer : MonoBehaviour
         
         //Debug.Log("Started");
         
-
+            
             if (isPlaying && !isTracking && !isShooting)
             {
+                
                 CheckInput();
             }
 
@@ -71,11 +73,32 @@ public class Aimer : MonoBehaviour
                 Vector3 point = hit.point;
                 CueBall.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                 CueBall.GetComponent<Rigidbody2D>().angularVelocity = 0;
-                CueBall.transform.position = point;
+
 
                 isTracking = true;
             }
+            
         }
+        placeBall();
+    }
+
+    void placeBall()
+    {
+        if (isFirstShot && Input.GetMouseButton(1))
+        {
+            Debug.Log("Placing");
+            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 100, controlLayer);
+            if (hit)
+            {
+                CueBall.position = hit.point;
+            }
+        }
+
+    }
+
+    void adjustSize()
+    {
+        transform.localScale = new Vector3(.5f, .5f, 1);
     }
 
     void TrackInput()
@@ -108,6 +131,7 @@ public class Aimer : MonoBehaviour
         pushDir *= pushMulti;
         CueBall.GetComponent<Rigidbody2D>().AddForce(pushDir, ForceMode2D.Impulse);
         isShooting = true;
-
+        isFirstShot = false;
+        adjustSize();
     }
 }

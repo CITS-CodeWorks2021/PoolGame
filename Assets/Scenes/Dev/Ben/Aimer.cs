@@ -12,10 +12,13 @@ public class Aimer : MonoBehaviour
     bool isPlaying = false, isTracking = false, isShooting = false, isFirstShot = true;
     public Transform CueBall;
     public LayerMask controlLayer;
+    public GameObject PoolStick;
+    public GameObject aimEndPoint;
 
     // Start is called before the first frame update
     void Start()
     {
+        //PoolStick.SetActive(false);
         //Temp
         isPlaying = true;
     }
@@ -27,10 +30,17 @@ public class Aimer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
         //Debug.Log("Started");
-        
-            
+
+        if (isTracking)
+        {
+            PoolStick.SetActive(true);
+            PoolStick.transform.SetPositionAndRotation(
+                aimObject.transform.position,
+                Quaternion.LookRotation(CueBall.position - aimObject.transform.position)
+                );
+        }
             if (isPlaying && !isTracking && !isShooting)
             {
                 
@@ -133,5 +143,10 @@ public class Aimer : MonoBehaviour
         isShooting = true;
         isFirstShot = false;
         adjustSize();
+        PoolStick.SetActive(false);
+
     }
+
+    
+
 }
